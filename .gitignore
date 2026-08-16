@@ -1,0 +1,19 @@
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+venv/
+.venv/
+env/
+
+# IDE / OS Clutter
+.vscode/
+.idea/
+.DS_Store

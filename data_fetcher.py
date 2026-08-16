@@ -1,6 +1,7 @@
 # data_fetcher.py
 import json
 
+
 def get_housing_kpis():
     """Simulates a pre-aggregated query from Power BI."""
     mock_data = {

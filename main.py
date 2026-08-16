@@ -1,19 +1,24 @@
 
 import os
+
 from dotenv import load_dotenv
 
 from audit_engine import ExecutiveAuditEngine
 from providers.deepseek_client import DeepSeekService
+
 #from providers.gemini_client import GeminiService
 
-load_dotenv()
+_=load_dotenv()
 
 # --- CONFIGURATION SWITCH ---
 SELECTED_PROVIDER = os.getenv("LLM_PROVIDER", "deepseek") # "deepseek" or "gemini"
 
 def get_llm_service():
     if SELECTED_PROVIDER == "deepseek":
-        return DeepSeekService(api_key=os.getenv("DEEPSEEK_API_KEY"))
+        api_key=os.getenv("DEEPSEEK_API_KEY")
+        if api_key is None:
+            raise RuntimeError(f"Cannot find an API key for: {SELECTED_PROVIDER}")
+        return DeepSeekService(api_key)
     #elif SELECTED_PROVIDER == "gemini":
     #    return GeminiService(api_key=os.getenv("GEMINI_API_KEY"))
     else:

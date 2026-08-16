@@ -1,6 +1,7 @@
-
 from openai import OpenAI
+
 from llm_service import LLMService
+
 
 class DeepSeekService(LLMService):
     def __init__(self, api_key: str):
@@ -18,4 +19,7 @@ class DeepSeekService(LLMService):
                 {"role": "user", "content": f"Data: {user_data}"}
             ]
         )
-        return response.choices[0].message.content
+        content = response.choices[0].message.content
+        if content is None:
+            raise RuntimeError("DeepSeek returned an empty response (content is None)")
+        return content

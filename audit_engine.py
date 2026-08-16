@@ -1,6 +1,9 @@
+from typing import final
 
 from llm_service import LLMService
 
+
+@final
 class ExecutiveAuditEngine:
     def __init__(self, llm_client: LLMService): # Dependency Injection
         self.llm = llm_client

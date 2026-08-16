@@ -1,13 +1,15 @@
 # generate_briefing.py
 import os
+
 from dotenv import load_dotenv
 
 from data_fetcher import get_housing_kpis
 from llm_service import LLMService
 from providers.deepseek_client import DeepSeekService
+
 #from providers.gemini_client import GeminiService
 
-load_dotenv()
+_ = load_dotenv()
 
 SYSTEM_SOP = """
 You are the Chief Operations Officer for a housing management company.

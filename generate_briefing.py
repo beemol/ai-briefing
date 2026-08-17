@@ -1,13 +1,10 @@
-# generate_briefing.py
 import os
 
 from dotenv import load_dotenv
 
 from data_fetcher import get_housing_kpis
 from llm_service import LLMService
-from providers.deepseek_client import DeepSeekService
-
-#from providers.gemini_client import GeminiService
+from providers.factory import get_llm_service
 
 _ = load_dotenv()
 
@@ -20,20 +17,6 @@ Rules for the summary:
 - Do not use corporate jargon. Be blunt and direct.
 - Always bold the critical flags.
 """
-
-def get_llm_provider() -> LLMService:
-    """Factory function to resolve the active LLM service based on environment variables."""
-    provider = os.getenv("LLM_PROVIDER", "gemini").lower()
-        
-    if provider == "deepseek":
-        api_key = os.getenv("DEEPSEEK_API_KEY")
-        if not api_key:
-            raise ValueError("DEEPSEEK_API_KEY environment variable is missing.")
-        return DeepSeekService(api_key=api_key)
-        
-    else:
-        raise ValueError(f"Unsupported LLM_PROVIDER: {provider}")
-
 
 def run_daily_audit(llm_service: LLMService) -> None:
     print("Fetching metrics from Power BI...")
@@ -53,5 +36,5 @@ def run_daily_audit(llm_service: LLMService) -> None:
 
 if __name__ == "__main__":
     # Dependency Injection
-    service = get_llm_provider()
+    service = get_llm_service()
     run_daily_audit(llm_service=service)

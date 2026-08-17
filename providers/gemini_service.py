@@ -5,13 +5,13 @@ from openai import OpenAI
 from llm_service import LLMService
 
 
-class DeepSeekService(LLMService):
+class GeminiService(LLMService):
     def __init__(self, api_key: str):
         self.client = OpenAI(
             api_key=api_key,
-            base_url="https://api.deepseek.com/v1"
+            base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
         )
-        self.model = "deepseek-chat"
+        self.model = "gemini-3.7-flash"
 
     @override
     def generate_summary(self, system_prompt: str, user_data: str) -> str:
@@ -24,5 +24,5 @@ class DeepSeekService(LLMService):
         )
         content = response.choices[0].message.content
         if content is None:
-            raise RuntimeError("DeepSeek returned an empty response (content is None)")
+            raise RuntimeError("Gemini returned an empty response (content is None)")
         return content

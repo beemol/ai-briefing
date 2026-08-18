@@ -21,12 +21,20 @@ token_data = {
 
 # The Client Credentials flow naturally expects urlencoded form format
 token_res = requests.post(token_url, data=token_data).json()
+
+if "access_token" not in token_res:
+    raise SystemExit(
+        f"Token failed: {token_res.get('error')} — {token_res.get('error_description')}"
+    )
+
 access_token = token_res["access_token"]
 headers = {"Authorization": f"Bearer {access_token}"}
 
 # 2. Extract database entities
 datasets_url = f"https://api.powerbi.com/v1.0/myorg/groups/{WORKSPACE_ID}/datasets"
-datasets = requests.get(datasets_url, headers=headers).json()
+datasets_res = requests.get(datasets_url, headers=headers)
+datasets_res.raise_for_status()   # fail loudly on 401/403 instead of lying
+datasets = datasets_res.json()
 
 print("==============================================")
 print("   AVAILABLE POWER BI DATABASES (DATASETS)   ")

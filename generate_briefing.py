@@ -1,5 +1,3 @@
-import os
-
 from dotenv import load_dotenv
 
 from data_fetcher import get_housing_kpis

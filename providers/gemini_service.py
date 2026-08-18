@@ -1,10 +1,11 @@
-from typing import override
+from typing import final, override
 
 from openai import OpenAI
 
 from llm_service import LLMService
 
 
+@final
 class GeminiService(LLMService):
     def __init__(self, api_key: str):
         self.client = OpenAI(

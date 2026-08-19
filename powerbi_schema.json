@@ -1,0 +1,1368 @@
+{
+  "event_rel (скоринг перв вход в анал за 60 д)": [
+    {
+      "name": "DATE_CREATE",
+      "type": "Date"
+    },
+    {
+      "name": "EVENT_TEXT_1",
+      "type": "Text"
+    },
+    {
+      "name": "EVENT_TEXT_2",
+      "type": "Text"
+    },
+    {
+      "name": "id лида",
+      "type": "Integer"
+    },
+    {
+      "name": "OWNER_ID",
+      "type": "Integer"
+    },
+    {
+      "name": "Скоринг Общий результат",
+      "type": "Text"
+    }
+  ],
+  "event_rel (скоринг перв выход из собес за 60 д)": [
+    {
+      "name": "DATE_CREATE",
+      "type": "Date"
+    },
+    {
+      "name": "EVENT_TEXT_1",
+      "type": "Text"
+    },
+    {
+      "name": "EVENT_TEXT_2",
+      "type": "Text"
+    },
+    {
+      "name": "OWNER_ID",
+      "type": "Integer"
+    }
+  ],
+  "event_relations (Аналитика завершена - вперед)": [
+    {
+      "name": "CREATED_TIME",
+      "type": "Date"
+    },
+    {
+      "name": "DATE_CREATE",
+      "type": "Date"
+    },
+    {
+      "name": "EVENT_TEXT_1",
+      "type": "Text"
+    },
+    {
+      "name": "EVENT_TEXT_2",
+      "type": "Text"
+    },
+    {
+      "name": "OWNER_ID",
+      "type": "Integer"
+    },
+    {
+      "name": "SEMANTICS",
+      "type": "Text"
+    },
+    {
+      "name": "SEMANTICS_EVENT_TEXT_2",
+      "type": "Text"
+    },
+    {
+      "name": "SORT",
+      "type": "Integer"
+    },
+    {
+      "name": "SORT_EVENT_TEXT_2",
+      "type": "Text"
+    },
+    {
+      "name": "STAGE_ID",
+      "type": "Text"
+    },
+    {
+      "name": "TITLE",
+      "type": "Text"
+    },
+    {
+      "name": "Категория",
+      "type": "Text"
+    },
+    {
+      "name": "Количество переходов в стадию",
+      "type": "Integer"
+    },
+    {
+      "name": "Первоначальный взнос",
+      "type": "Text"
+    },
+    {
+      "name": "Суррогатный ключ_1",
+      "type": "Text"
+    }
+  ],
+  "event_relations (все события)": [
+    {
+      "name": "CREATED_TIME",
+      "type": "Date"
+    },
+    {
+      "name": "DATE_CREATE",
+      "type": "Date"
+    },
+    {
+      "name": "EVENT_TEXT_1",
+      "type": "Text"
+    },
+    {
+      "name": "EVENT_TEXT_2",
+      "type": "Text"
+    },
+    {
+      "name": "OWNER_ID",
+      "type": "Integer"
+    },
+    {
+      "name": "SEMANTICS",
+      "type": "Text"
+    },
+    {
+      "name": "Кол-во переходов",
+      "type": "Integer"
+    }
+  ],
+  "event_relations (первый вход за посл 60 дней)": [
+    {
+      "name": "CREATED_TIME",
+      "type": "Date"
+    },
+    {
+      "name": "DATE_CREATE",
+      "type": "Date"
+    },
+    {
+      "name": "EVENT_TEXT_1",
+      "type": "Text"
+    },
+    {
+      "name": "EVENT_TEXT_2",
+      "type": "Text"
+    },
+    {
+      "name": "ID Группы",
+      "type": "Text"
+    },
+    {
+      "name": "OWNER_ID",
+      "type": "Integer"
+    },
+    {
+      "name": "SEMANTICS",
+      "type": "Text"
+    },
+    {
+      "name": "SORT",
+      "type": "Integer"
+    },
+    {
+      "name": "STAGE_ID",
+      "type": "Text"
+    },
+    {
+      "name": "Группа недели события",
+      "type": "Text"
+    },
+    {
+      "name": "Группа стадий",
+      "type": "Text"
+    },
+    {
+      "name": "Дата старта",
+      "type": "Date"
+    },
+    {
+      "name": "Деление",
+      "type": "Number"
+    },
+    {
+      "name": "Интервал от приема до события",
+      "type": "Integer"
+    },
+    {
+      "name": "Категория",
+      "type": "Text"
+    },
+    {
+      "name": "КМ",
+      "type": "Text"
+    },
+    {
+      "name": "КМ_user id",
+      "type": "Integer"
+    },
+    {
+      "name": "Количество переходов в стадию",
+      "type": "Integer"
+    },
+    {
+      "name": "Кто перевел",
+      "type": "Text"
+    },
+    {
+      "name": "Неделя события",
+      "type": "Integer"
+    },
+    {
+      "name": "РОП",
+      "type": "Text"
+    },
+    {
+      "name": "СОП",
+      "type": "Text"
+    },
+    {
+      "name": "Суррогатный ключ для документов",
+      "type": "Text"
+    }
+  ],
+  "event_relations (первый вход по каждому статусу)": [
+    {
+      "name": "CREATED_TIME",
+      "type": "Date"
+    },
+    {
+      "name": "DATE_CREATE",
+      "type": "Date"
+    },
+    {
+      "name": "EVENT_TEXT_1",
+      "type": "Text"
+    },
+    {
+      "name": "EVENT_TEXT_2",
+      "type": "Text"
+    },
+    {
+      "name": "ID Группы",
+      "type": "Text"
+    },
+    {
+      "name": "OWNER_ID",
+      "type": "Integer"
+    },
+    {
+      "name": "SEMANTICS",
+      "type": "Text"
+    },
+    {
+      "name": "SORT",
+      "type": "Integer"
+    },
+    {
+      "name": "STAGE_ID",
+      "type": "Text"
+    },
+    {
+      "name": "Андерайтинг",
+      "type": "Text"
+    },
+    {
+      "name": "Год события",
+      "type": "Text"
+    },
+    {
+      "name": "Группа недели события",
+      "type": "Text"
+    },
+    {
+      "name": "Группа стадий",
+      "type": "Text"
+    },
+    {
+      "name": "Группа стадий_2",
+      "type": "Text"
+    },
+    {
+      "name": "Дата старта",
+      "type": "Date"
+    },
+    {
+      "name": "Деление",
+      "type": "Number"
+    },
+    {
+      "name": "Интервал от приема до события",
+      "type": "Integer"
+    },
+    {
+      "name": "Категория",
+      "type": "Text"
+    },
+    {
+      "name": "КМ",
+      "type": "Text"
+    },
+    {
+      "name": "КМ_user id",
+      "type": "Integer"
+    },
+    {
+      "name": "Кол-во",
+      "type": "Integer"
+    },
+    {
+      "name": "Количество переходов в стадию",
+      "type": "Integer"
+    },
+    {
+      "name": "Кто перевел",
+      "type": "Text"
+    },
+    {
+      "name": "Неделя события",
+      "type": "Integer"
+    },
+    {
+      "name": "РОП",
+      "type": "Text"
+    },
+    {
+      "name": "СОП",
+      "type": "Text"
+    },
+    {
+      "name": "Суррогатный ключ для документов",
+      "type": "Text"
+    },
+    {
+      "name": "Суррогатный ключ_2",
+      "type": "Text"
+    },
+    {
+      "name": "Текущий статус",
+      "type": "Text"
+    }
+  ],
+  "event_relations (перевели ПВ в 10)": [
+    {
+      "name": "id лида",
+      "type": "Integer"
+    },
+    {
+      "name": "Дата перехода",
+      "type": "Date"
+    },
+    {
+      "name": "ПВ был",
+      "type": "Text"
+    },
+    {
+      "name": "ПВ стал",
+      "type": "Text"
+    },
+    {
+      "name": "РОП",
+      "type": "Text"
+    }
+  ],
+  "event_relations (повторные документы)": [
+    {
+      "name": "CREATED_TIME",
+      "type": "Date"
+    },
+    {
+      "name": "DATE_CREATE",
+      "type": "Date"
+    },
+    {
+      "name": "EVENT_TEXT_1",
+      "type": "Text"
+    },
+    {
+      "name": "EVENT_TEXT_2",
+      "type": "Text"
+    },
+    {
+      "name": "ID Группы",
+      "type": "Text"
+    },
+    {
+      "name": "OWNER_ID",
+      "type": "Integer"
+    },
+    {
+      "name": "OWNER_ID.1",
+      "type": "Integer"
+    },
+    {
+      "name": "SEMANTICS",
+      "type": "Text"
+    },
+    {
+      "name": "SORT",
+      "type": "Integer"
+    },
+    {
+      "name": "STAGE_ID",
+      "type": "Text"
+    },
+    {
+      "name": "Группа стадий",
+      "type": "Text"
+    },
+    {
+      "name": "Категория",
+      "type": "Text"
+    },
+    {
+      "name": "КМ",
+      "type": "Text"
+    },
+    {
+      "name": "КМ_user id",
+      "type": "Integer"
+    },
+    {
+      "name": "Кто перевел",
+      "type": "Text"
+    },
+    {
+      "name": "Суррогатный ключ для документов",
+      "type": "Text"
+    }
+  ],
+  "event_relations (пульс)": [
+    {
+      "name": "ASSIGNED_BY_ID",
+      "type": "Integer"
+    },
+    {
+      "name": "DATE_CREATE",
+      "type": "Date"
+    },
+    {
+      "name": "EVENT_NAME",
+      "type": "Text"
+    },
+    {
+      "name": "OWNER_ID",
+      "type": "Integer"
+    },
+    {
+      "name": "Количество",
+      "type": "Integer"
+    }
+  ],
+  "sitemanager b_crm_dynamic_items_168": [
+    {
+      "name": "COMPANY_ID",
+      "type": "Integer"
+    },
+    {
+      "name": "DATE_CREATE",
+      "type": "Date"
+    },
+    {
+      "name": "DATE_CREATE_Начало месяца",
+      "type": "Date"
+    },
+    {
+      "name": "ID",
+      "type": "Integer"
+    },
+    {
+      "name": "ID Группы",
+      "type": "Text"
+    },
+    {
+      "name": "ID ПОСЛЕДНЕГО СКОРИНГА",
+      "type": "Integer"
+    },
+    {
+      "name": "NAME",
+      "type": "Text"
+    },
+    {
+      "name": "STAGE_SEMANTIC_ID",
+      "type": "Text"
+    },
+    {
+      "name": "TITLE",
+      "type": "Text"
+    },
+    {
+      "name": "UF_CRM_31_INN",
+      "type": "Text"
+    },
+    {
+      "name": "UF_CRM_31_UTM_SOURCE",
+      "type": "Text"
+    },
+    {
+      "name": "url",
+      "type": "Text"
+    },
+    {
+      "name": "VR Мастер-статус _ 1",
+      "type": "Text"
+    },
+    {
+      "name": "VR Мастер-статус _ 2",
+      "type": "Text"
+    },
+    {
+      "name": "VR Мастер-статус _ 3",
+      "type": "Text"
+    },
+    {
+      "name": "Группа недели сотрудник",
+      "type": "Text"
+    },
+    {
+      "name": "Группа стадий",
+      "type": "Text"
+    },
+    {
+      "name": "Дата мастер-статуса",
+      "type": "Date"
+    },
+    {
+      "name": "Дата перехода в \"Андер 0\"",
+      "type": "Date"
+    },
+    {
+      "name": "Дата перехода в \"Андер 10%\"",
+      "type": "Date"
+    },
+    {
+      "name": "Дата перехода в \"Андер 20%\"",
+      "type": "Date"
+    },
+    {
+      "name": "Дата перехода в \"Андер Б/У\"",
+      "type": "Date"
+    },
+    {
+      "name": "Дата перехода в \"Андер Х\"",
+      "type": "Date"
+    },
+    {
+      "name": "Дата перехода в \"Выдача одобрена\"",
+      "type": "Date"
+    },
+    {
+      "name": "Дата перехода в \"Договор подписан\"",
+      "type": "Date"
+    },
+    {
+      "name": "Дата перехода в \"Документы получены 60+\"",
+      "type": "Date"
+    },
+    {
+      "name": "Дата перехода в \"Документы получены\"",
+      "type": "Date"
+    },
+    {
+      "name": "Дата перехода в \"Запись на собеседование\"",
+      "type": "Date"
+    },
+    {
+      "name": "Дата перехода в \"ТС выдано\"",
+      "type": "Date"
+    },
+    {
+      "name": "Дата последнего движения",
+      "type": "Date"
+    },
+    {
+      "name": "Дата старта",
+      "type": "Date"
+    },
+    {
+      "name": "Заключение рук СБ",
+      "type": "Text"
+    },
+    {
+      "name": "Идет неделя",
+      "type": "Integer"
+    },
+    {
+      "name": "Интервал после Андер 0",
+      "type": "Integer"
+    },
+    {
+      "name": "Интервал после Документы получены",
+      "type": "Integer"
+    },
+    {
+      "name": "Источник",
+      "type": "Text"
+    },
+    {
+      "name": "Канал",
+      "type": "Text"
+    },
+    {
+      "name": "Каналы",
+      "type": "Text"
+    },
+    {
+      "name": "КМ",
+      "type": "Text"
+    },
+    {
+      "name": "КМ отдел",
+      "type": "Text"
+    },
+    {
+      "name": "КМ_user id",
+      "type": "Integer"
+    },
+    {
+      "name": "Мастер-статус",
+      "type": "Text"
+    },
+    {
+      "name": "Месяц года переход в документы",
+      "type": "Date"
+    },
+    {
+      "name": "Месяц года переход в подписание",
+      "type": "Date"
+    },
+    {
+      "name": "Отправляли на собес?",
+      "type": "Text"
+    },
+    {
+      "name": "Первоначальный взнос",
+      "type": "Text"
+    },
+    {
+      "name": "Прошли Андер 0?",
+      "type": "Text"
+    },
+    {
+      "name": "Прошли Подписание?",
+      "type": "Text"
+    },
+    {
+      "name": "Работает в ЗУП?",
+      "type": "Text"
+    },
+    {
+      "name": "Рекламный источник",
+      "type": "Text"
+    },
+    {
+      "name": "РОП",
+      "type": "Text"
+    },
+    {
+      "name": "Согласованная дата подписания",
+      "type": "Date"
+    },
+    {
+      "name": "СОП",
+      "type": "Text"
+    },
+    {
+      "name": "Сотрудник",
+      "type": "Text"
+    },
+    {
+      "name": "Стадия СКОРИНГ",
+      "type": "Text"
+    },
+    {
+      "name": "Суррогатный ключ реклама",
+      "type": "Text"
+    },
+    {
+      "name": "Телефон лизингополучателя",
+      "type": "Text"
+    }
+  ],
+  "sitemanager b_crm_dynamic_items_168 (ГРИДЫ)": [
+    {
+      "name": "ASSIGNED_BY_ID",
+      "type": "Integer"
+    },
+    {
+      "name": "CATEGORY_ID",
+      "type": "Integer"
+    },
+    {
+      "name": "COMPANY_ID",
+      "type": "Integer"
+    },
+    {
+      "name": "CREATED_BY",
+      "type": "Integer"
+    },
+    {
+      "name": "DATE_CREATE",
+      "type": "Date"
+    },
+    {
+      "name": "ID",
+      "type": "Integer"
+    },
+    {
+      "name": "NAME",
+      "type": "Text"
+    },
+    {
+      "name": "SORT",
+      "type": "Integer"
+    },
+    {
+      "name": "STAGE_ID",
+      "type": "Text"
+    },
+    {
+      "name": "STAGE_SEMANTIC_ID",
+      "type": "Text"
+    },
+    {
+      "name": "TITLE",
+      "type": "Text"
+    },
+    {
+      "name": "UF_CRM_31_LEADER",
+      "type": "Integer"
+    },
+    {
+      "name": "UF_CRM_31_SOP",
+      "type": "Integer"
+    },
+    {
+      "name": "url",
+      "type": "Text"
+    },
+    {
+      "name": "Категория",
+      "type": "Number"
+    },
+    {
+      "name": "РОП",
+      "type": "Text"
+    },
+    {
+      "name": "СОП",
+      "type": "Text"
+    },
+    {
+      "name": "Сотрудник",
+      "type": "Text"
+    }
+  ],
+  "sitemanager b_crm_dynamic_items_168 (по датам)": [
+    {
+      "name": "DATE_CREATE",
+      "type": "Date"
+    },
+    {
+      "name": "Количество",
+      "type": "Integer"
+    }
+  ],
+  "sitemanager b_crm_status": [
+    {
+      "name": "ID Группы",
+      "type": "Text"
+    },
+    {
+      "name": "NAME",
+      "type": "Text"
+    },
+    {
+      "name": "SEMANTICS",
+      "type": "Text"
+    },
+    {
+      "name": "SORT",
+      "type": "Integer"
+    },
+    {
+      "name": "STATUS_ID",
+      "type": "Text"
+    },
+    {
+      "name": "Воронка КМ",
+      "type": "Text"
+    },
+    {
+      "name": "Группа стадий",
+      "type": "Text"
+    }
+  ],
+  "sitemanager b_crm_status (Скоринг)": [
+    {
+      "name": "ID Группы",
+      "type": "Text"
+    },
+    {
+      "name": "NAME",
+      "type": "Text"
+    },
+    {
+      "name": "SEMANTICS",
+      "type": "Text"
+    },
+    {
+      "name": "SORT",
+      "type": "Integer"
+    },
+    {
+      "name": "STATUS_ID",
+      "type": "Text"
+    },
+    {
+      "name": "Воронка КМ",
+      "type": "Text"
+    },
+    {
+      "name": "Группа стадий",
+      "type": "Text"
+    }
+  ],
+  "sitemanager b_user_index": [
+    {
+      "name": "ACTIVE",
+      "type": "Text"
+    },
+    {
+      "name": "LAST_NAME",
+      "type": "Text"
+    },
+    {
+      "name": "NAME",
+      "type": "Text"
+    },
+    {
+      "name": "SEARCH_ADMIN_CONTENT",
+      "type": "Text"
+    },
+    {
+      "name": "SEARCH_DEPARTMENT_CONTENT",
+      "type": "Text"
+    },
+    {
+      "name": "SEARCH_USER_CONTENT",
+      "type": "Text"
+    },
+    {
+      "name": "SECOND_NAME",
+      "type": "Text"
+    },
+    {
+      "name": "UF_DEPARTMENT_NAME",
+      "type": "Text"
+    },
+    {
+      "name": "USER_ID",
+      "type": "Integer"
+    },
+    {
+      "name": "WORK_POSITION",
+      "type": "Text"
+    },
+    {
+      "name": "СОП_LAST_NAME",
+      "type": "Text"
+    },
+    {
+      "name": "ФИО сотрудника",
+      "type": "Text"
+    }
+  ],
+  "ЗУП": [
+    {
+      "name": "USER_ID",
+      "type": "Integer"
+    },
+    {
+      "name": "Группа недели сотрудник",
+      "type": "Text"
+    },
+    {
+      "name": "Дата приема",
+      "type": "Date"
+    },
+    {
+      "name": "Дата старта",
+      "type": "Date"
+    },
+    {
+      "name": "Дата увольнения",
+      "type": "Date"
+    },
+    {
+      "name": "Деление",
+      "type": "Number"
+    },
+    {
+      "name": "Должность",
+      "type": "Text"
+    },
+    {
+      "name": "Идет неделя",
+      "type": "Integer"
+    },
+    {
+      "name": "Интервал от старта",
+      "type": "Integer"
+    },
+    {
+      "name": "Код",
+      "type": "Text"
+    },
+    {
+      "name": "Название дня",
+      "type": "Text"
+    },
+    {
+      "name": "Неделя старта",
+      "type": "Date"
+    },
+    {
+      "name": "Неделя увольнения",
+      "type": "Date"
+    },
+    {
+      "name": "Отдел в БТ",
+      "type": "Text"
+    },
+    {
+      "name": "Подразделение",
+      "type": "Text"
+    },
+    {
+      "name": "Работает?",
+      "type": "Text"
+    },
+    {
+      "name": "СОП_LAST_NAME",
+      "type": "Text"
+    },
+    {
+      "name": "Сотрудник",
+      "type": "Text"
+    }
+  ],
+  "ЗУП (ДУБЛИ ПО USER)": [
+    {
+      "name": "USER_ID",
+      "type": "Integer"
+    },
+    {
+      "name": "Группа недели сотрудник",
+      "type": "Text"
+    },
+    {
+      "name": "Дата приема",
+      "type": "Date"
+    },
+    {
+      "name": "Дата старта",
+      "type": "Date"
+    },
+    {
+      "name": "Дата увольнения",
+      "type": "Date"
+    },
+    {
+      "name": "Деление",
+      "type": "Number"
+    },
+    {
+      "name": "Должность",
+      "type": "Text"
+    },
+    {
+      "name": "Идет неделя",
+      "type": "Integer"
+    },
+    {
+      "name": "Интервал от старта",
+      "type": "Integer"
+    },
+    {
+      "name": "Код",
+      "type": "Text"
+    },
+    {
+      "name": "Название дня",
+      "type": "Text"
+    },
+    {
+      "name": "Подразделение",
+      "type": "Text"
+    },
+    {
+      "name": "Работает?",
+      "type": "Text"
+    },
+    {
+      "name": "Сотрудник",
+      "type": "Text"
+    }
+  ],
+  "Календарь": [
+    {
+      "name": "Date",
+      "type": "Date"
+    },
+    {
+      "name": "Календарь месяц",
+      "type": "Text"
+    },
+    {
+      "name": "МесяцГод_Индекс",
+      "type": "Integer"
+    },
+    {
+      "name": "МесяцГод_Текст",
+      "type": "Text"
+    },
+    {
+      "name": "Неделя",
+      "type": "Text"
+    }
+  ],
+  "Календарь (реклама)": [
+    {
+      "name": "Date",
+      "type": "Date"
+    },
+    {
+      "name": "Выдача одобрена",
+      "type": "Integer"
+    },
+    {
+      "name": "Договор подписан",
+      "type": "Integer"
+    },
+    {
+      "name": "Документты получены",
+      "type": "Integer"
+    },
+    {
+      "name": "Календарь месяц",
+      "type": "Text"
+    },
+    {
+      "name": "КС",
+      "type": "Integer"
+    },
+    {
+      "name": "Неделя",
+      "type": "Text"
+    },
+    {
+      "name": "Расходы",
+      "type": "Number"
+    },
+    {
+      "name": "Рекламный источник",
+      "type": "Text"
+    },
+    {
+      "name": "Согласована дата подписания",
+      "type": "Integer"
+    },
+    {
+      "name": "Суррогатный ключ реклама",
+      "type": "Text"
+    }
+  ],
+  "Календарь для Плана": [
+    {
+      "name": "Дата",
+      "type": "Date"
+    },
+    {
+      "name": "Дата начала недели",
+      "type": "Text"
+    },
+    {
+      "name": "Дата номера недели",
+      "type": "Text"
+    },
+    {
+      "name": "День недели",
+      "type": "Text"
+    },
+    {
+      "name": "Неделя",
+      "type": "Text"
+    },
+    {
+      "name": "Номер недели",
+      "type": "Integer"
+    }
+  ],
+  "КП и Доки по МОП": [
+    {
+      "name": "Выдача",
+      "type": "Integer"
+    },
+    {
+      "name": "Доки план в день",
+      "type": "Number"
+    },
+    {
+      "name": "Документы 60+",
+      "type": "Integer"
+    },
+    {
+      "name": "Документы новые",
+      "type": "Integer"
+    },
+    {
+      "name": "ЗУП_user_id",
+      "type": "Integer"
+    },
+    {
+      "name": "ЗУП_Группа недели сотрудник",
+      "type": "Text"
+    },
+    {
+      "name": "ЗУП_Дата старта",
+      "type": "Date"
+    },
+    {
+      "name": "ЗУП_Дата увольнения",
+      "type": "Date"
+    },
+    {
+      "name": "ЗУП_Идет неделя",
+      "type": "Integer"
+    },
+    {
+      "name": "ЗУП_Отдел в БТ",
+      "type": "Text"
+    },
+    {
+      "name": "ЗУП_Работает?",
+      "type": "Text"
+    },
+    {
+      "name": "ЗУП_СОП_LAST_NAME",
+      "type": "Text"
+    },
+    {
+      "name": "ЗУП_Сотрудник",
+      "type": "Text"
+    },
+    {
+      "name": "Изменение стадий уникальных карточек",
+      "type": "Integer"
+    },
+    {
+      "name": "Календарь_Date",
+      "type": "Date"
+    },
+    {
+      "name": "Календарь_Календарь месяц",
+      "type": "Text"
+    },
+    {
+      "name": "Календарь_Неделя",
+      "type": "Text"
+    },
+    {
+      "name": "КП отправлено",
+      "type": "Integer"
+    },
+    {
+      "name": "КП план в день",
+      "type": "Number"
+    },
+    {
+      "name": "Открыто уникальных карточек",
+      "type": "Integer"
+    },
+    {
+      "name": "Подписания",
+      "type": "Integer"
+    },
+    {
+      "name": "Работает на дату?",
+      "type": "Text"
+    },
+    {
+      "name": "Сколько дней от старта до даты",
+      "type": "Integer"
+    },
+    {
+      "name": "Сколько работает на дату?",
+      "type": "Integer"
+    }
+  ],
+  "КП и Доки по РОП": [
+    {
+      "name": "Date",
+      "type": "Date"
+    },
+    {
+      "name": "ЗУП_Отдел в БТ",
+      "type": "Text"
+    },
+    {
+      "name": "Изменение стадий",
+      "type": "Integer"
+    },
+    {
+      "name": "Открыто уник карточек",
+      "type": "Integer"
+    },
+    {
+      "name": "Сотрудников на дату",
+      "type": "Integer"
+    },
+    {
+      "name": "Среднее изменение стадий",
+      "type": "Number"
+    },
+    {
+      "name": "Среднее открыто уник карточек",
+      "type": "Number"
+    }
+  ],
+  "Перераспределение": [
+    {
+      "name": "ID",
+      "type": "Integer"
+    },
+    {
+      "name": "ID НОВОГО КМ И ОТВЕТСТВЕННОГО",
+      "type": "Integer"
+    },
+    {
+      "name": "url",
+      "type": "Text"
+    },
+    {
+      "name": "Дата изменения стадии",
+      "type": "Date"
+    },
+    {
+      "name": "дата контакта последнего",
+      "type": "Integer"
+    },
+    {
+      "name": "ИНН лизингополучателя",
+      "type": "Integer"
+    },
+    {
+      "name": "Клиентский менеджер",
+      "type": "Text"
+    },
+    {
+      "name": "КМ",
+      "type": "Text"
+    },
+    {
+      "name": "Комент",
+      "type": "Text"
+    },
+    {
+      "name": "Название",
+      "type": "Text"
+    },
+    {
+      "name": "не брать",
+      "type": "Text"
+    },
+    {
+      "name": "Ответственный",
+      "type": "Text"
+    },
+    {
+      "name": "Первоначальный взнос",
+      "type": "Integer"
+    },
+    {
+      "name": "Регион прописки собственника бизнеса?",
+      "type": "Text"
+    },
+    {
+      "name": "РОП",
+      "type": "Text"
+    },
+    {
+      "name": "Светофор оценка Клиентский менеджер",
+      "type": "Text"
+    },
+    {
+      "name": "Стадия",
+      "type": "Text"
+    },
+    {
+      "name": "Что хочет взять в лизинг?",
+      "type": "Text"
+    }
+  ],
+  "Рекламные расходы": [
+    {
+      "name": "Дата",
+      "type": "Date"
+    },
+    {
+      "name": "Канал",
+      "type": "Text"
+    },
+    {
+      "name": "НДС",
+      "type": "Text"
+    },
+    {
+      "name": "Потрачено без НДС",
+      "type": "Text"
+    },
+    {
+      "name": "Сумма",
+      "type": "Number"
+    },
+    {
+      "name": "Суррогатный ключ реклама",
+      "type": "Text"
+    }
+  ],
+  "Списки (реклама_utm_source)": [
+    {
+      "name": "utm-source",
+      "type": "Text"
+    },
+    {
+      "name": "Канал",
+      "type": "Text"
+    }
+  ],
+  "Списки (реклама_каналы)": [
+    {
+      "name": "Где считаем",
+      "type": "Text"
+    },
+    {
+      "name": "Каналы",
+      "type": "Text"
+    }
+  ],
+  "Таблица лидов": [
+    {
+      "name": "Дата добавления лида",
+      "type": "Date"
+    },
+    {
+      "name": "Канал",
+      "type": "Text"
+    }
+  ]
+}

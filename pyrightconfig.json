@@ -1,4 +1,5 @@
 {
+  "extraPaths": ["src"],
   "reportMissingTypeStubs": false,
   "reportUnknownVariableType": false,
   "reportUnknownMemberType": false,

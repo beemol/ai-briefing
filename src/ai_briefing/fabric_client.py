@@ -4,7 +4,7 @@ from typing import cast
 
 import requests
 
-from powerbi_auth import get_token_for
+from ai_briefing.powerbi.powerbi_auth import get_token_for
 
 FABRIC_SCOPE = "https://api.fabric.microsoft.com/.default"
 

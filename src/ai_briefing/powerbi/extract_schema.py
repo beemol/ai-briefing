@@ -1,5 +1,6 @@
 import csv
 import json
+import os
 
 
 def extract_schema(csv_path: str, output_path: str):
@@ -34,4 +35,8 @@ def extract_schema(csv_path: str, output_path: str):
     print(f"Schema extracted to {output_path}")
 
 if __name__ == "__main__":
-    extract_schema('powerbi_schema.csv', 'powerbi_schema.json')
+    base = os.path.dirname(os.path.abspath(__file__))
+    extract_schema(
+        os.path.join(base, "powerbi_schema.csv"),
+        os.path.join(base, "powerbi_schema.json"),
+    )

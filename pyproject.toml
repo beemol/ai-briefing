@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-briefing"
+version = "0.1.0"
+description = "AI assistant for a truck-leasing company: answers questions from Bitrix24 and Power BI."
+requires-python = ">=3.12"
+dependencies = [
+    "anthropic",
+    "msal",
+    "openai",
+    "python-dotenv",
+    "requests",
+]
+
+[project.scripts]
+chat = "ai_briefing.cli:main"
+powerbi-inspect = "ai_briefing.powerbi.powerbi_tools:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+ai_briefing = ["powerbi/*.json", "powerbi/*.csv"]
+
+[tool.ruff]
+src = ["src"]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint.isort]
+known-first-party = ["ai_briefing"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

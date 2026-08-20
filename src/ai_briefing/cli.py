@@ -4,12 +4,9 @@ import sys
 from anthropic import Anthropic
 from dotenv import load_dotenv
 
-from agent import Agent
-from bitrix_client import BitrixClient
-from bitrix_tools import BitrixTools
-from powerbi_auth import get_access_token
-from powerbi_client import PowerBIClient
-from powerbi_tools import PowerBITools
+from ai_briefing.agent import Agent
+from ai_briefing.bitrix import BitrixClient, BitrixTools
+from ai_briefing.powerbi import PowerBIClient, PowerBITools, get_access_token
 
 _ = load_dotenv()
 

@@ -17,3 +17,12 @@ env/
 .vscode/
 .idea/
 .DS_Store
+
+# Build / packaging
+*.egg-info/
+dist/
+build/
+
+# Test & lint caches
+.pytest_cache/
+.ruff_cache/

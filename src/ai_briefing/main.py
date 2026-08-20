@@ -2,8 +2,8 @@ import os
 
 from dotenv import load_dotenv
 
-from audit_engine import ExecutiveAuditEngine
-from providers.factory import get_llm_service
+from ai_briefing.audit_engine import ExecutiveAuditEngine
+from ai_briefing.providers.factory import get_llm_service
 
 _=load_dotenv()
 

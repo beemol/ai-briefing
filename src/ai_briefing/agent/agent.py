@@ -4,7 +4,7 @@ from typing import cast, final
 from anthropic import Anthropic
 from anthropic.types import MessageParam, ToolParam
 
-from toolkit import Toolkit
+from .toolkit import Toolkit
 
 
 @final

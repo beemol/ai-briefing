@@ -4,9 +4,10 @@ import os
 import sys
 from typing import Any, final, override
 
-from powerbi_auth import get_access_token
-from powerbi_client import PowerBIClient
-from toolkit import Toolkit, serialize_tool_result
+from ai_briefing.agent.toolkit import Toolkit, serialize_tool_result
+
+from .powerbi_auth import get_access_token
+from .powerbi_client import PowerBIClient
 
 DEFAULT_DATASET_ID = "7ff60759-744c-4d52-a142-45b118676e43"
 MAX_RESULT_ROWS = 100

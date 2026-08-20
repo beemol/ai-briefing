@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 
-from data_fetcher import get_housing_kpis
-from llm_service import LLMService
-from providers.factory import get_llm_service
+from ai_briefing.data_fetcher import get_housing_kpis
+from ai_briefing.llm_service import LLMService
+from ai_briefing.providers.factory import get_llm_service
 
 _ = load_dotenv()
 

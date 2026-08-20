@@ -1,6 +1,6 @@
 from typing import final
 
-from llm_service import LLMService
+from ai_briefing.llm_service import LLMService
 
 
 @final

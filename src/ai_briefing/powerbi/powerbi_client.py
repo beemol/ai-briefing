@@ -2,7 +2,7 @@ import os
 
 import requests
 
-from powerbi_auth import get_access_token
+from .powerbi_auth import get_access_token
 
 
 class PowerBIClient:

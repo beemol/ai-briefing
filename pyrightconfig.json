@@ -4,5 +4,7 @@
   "reportUnknownMemberType": false,
   "reportUnknownParameterType": false,
   "reportUnknownArgumentType": false,
-  "reportAny": false
+  "reportAny": false,
+  "reportExplicitAny": false,
+  "reportImplicitAny": false
 }

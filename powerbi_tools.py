@@ -2,7 +2,7 @@ import argparse
 import json
 import os
 import sys
-from typing import Any, final
+from typing import Any, final, override
 
 from powerbi_auth import get_access_token
 from powerbi_client import PowerBIClient
@@ -15,7 +15,7 @@ MAX_RESULT_ROWS = 100
 def quote_identifier(name: str) -> str:
     """Quote a DAX table/column identifier if it isn't already quoted."""
     name = name.strip()
-    if name.startswith("'") or name.startswith("["):
+    if name.startswith(("'", "[")):
         return name
     return f"'{name}'"
 
@@ -44,6 +44,7 @@ class PowerBITools(Toolkit):
             with open(schema_path, "r", encoding="utf-8") as f:
                 self._schema = json.load(f)
 
+    @override
     def get_tools(self) -> list[dict[str, Any]]:
         return [
             {
@@ -79,6 +80,7 @@ class PowerBITools(Toolkit):
             },
         ]
 
+    @override
     def execute(self, name: str, args: dict[str, Any]) -> str:
         """Route the tool name to the local python method and cap the output size."""
         if name == "get_powerbi_schema":
@@ -136,17 +138,17 @@ def build_parser() -> argparse.ArgumentParser:
     )
     sub = parser.add_subparsers(dest="command", required=True)
 
-    sub.add_parser("tables", help="List tables with column counts")
+    _ = sub.add_parser("tables", help="List tables with column counts")
 
     schema_p = sub.add_parser("schema", help="Show schema (optionally one table)")
-    schema_p.add_argument("table", nargs="?", default="")
+    _ = schema_p.add_argument("table", nargs="?", default="")
 
     preview_p = sub.add_parser("preview", help="Show sample rows from a table")
-    preview_p.add_argument("table")
-    preview_p.add_argument("--limit", type=int, default=20)
+    _ = preview_p.add_argument("table")
+    _ = preview_p.add_argument("--limit", type=int, default=20)
 
     dax_p = sub.add_parser("dax", help="Run a raw DAX query")
-    dax_p.add_argument("query")
+    _ = dax_p.add_argument("query")
 
     return parser
 

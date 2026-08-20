@@ -1,5 +1,5 @@
-import json
-from typing import cast
+from collections.abc import Sequence
+from typing import cast, final
 
 from anthropic import Anthropic
 from anthropic.types import MessageParam, ToolParam
@@ -7,13 +7,14 @@ from anthropic.types import MessageParam, ToolParam
 from toolkit import Toolkit
 
 
+@final
 class Agent:
     """Agnostic LLM loop that manages conversation history and delegates to Toolkits."""
 
     def __init__(
         self,
         claude: Anthropic,
-        toolkits: list[Toolkit],
+        toolkits: Sequence[Toolkit],
         model: str = "claude-3-7-sonnet-20250219",
     ):
         self._claude = claude
@@ -63,7 +64,7 @@ class Agent:
                         try:
                             # execute() already handles serialization and capping
                             res_str = tk.execute(block.name, block.input or {})
-                        except Exception as exc:
+                        except Exception as exc:  # noqa: BLE001 - keep the loop alive on tool errors
                             res_str = f"Error executing tool: {exc}"
 
                     tool_results.append(
@@ -82,4 +83,4 @@ class Agent:
 
             messages.append({"role": "user", "content": tool_results})
 
-        return "Не удалось получить ответ (превышен лимит шагов)."
+        return "Не удалось получить ответ, Пашка (превышен лимит шагов)."

@@ -1,4 +1,4 @@
-from typing import Any, cast
+from typing import Any, cast, override
 
 from bitrix_client import BitrixClient
 from toolkit import Toolkit, serialize_tool_result
@@ -27,6 +27,7 @@ class BitrixTools(Toolkit):
     def _decode(self, item: dict[str, object]) -> dict[str, object]:
         return self._client.decode_item(item, self._enum_map)
 
+    @override
     def get_tools(self) -> list[dict[str, Any]]:
         return [
             {
@@ -74,6 +75,7 @@ class BitrixTools(Toolkit):
             },
         ]
 
+    @override
     def execute(self, name: str, args: dict[str, Any]) -> str:
         """Route the tool name to the local python method and cap the output size."""
         if name == "leads_by_stage":

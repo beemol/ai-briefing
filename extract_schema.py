@@ -1,12 +1,12 @@
 import csv
 import json
-import os
+
 
 def extract_schema(csv_path: str, output_path: str):
     schema = {}
     with open(csv_path, mode='r', encoding='utf-8') as f:
         # Skip the first line "Table 1"
-        f.readline()
+        _ = f.readline()
         reader = csv.DictReader(f)
         for row in reader:
             table = row['[Table]']
@@ -17,7 +17,7 @@ def extract_schema(csv_path: str, output_path: str):
             # Skip hidden tables/columns and internal Power BI tables
             if is_hidden:
                 continue
-            if table.startswith('LocalDateTable_') or table.startswith('DateTableTemplate_'):
+            if table.startswith(('LocalDateTable_', 'DateTableTemplate_')):
                 continue
                 
             if table not in schema:

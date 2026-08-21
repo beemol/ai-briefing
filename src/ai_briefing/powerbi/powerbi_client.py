@@ -13,7 +13,7 @@ class PowerBIClient:
 
     def list_datasets(self, workspace_id: str) -> list[dict[str, object]]:
         url = f"https://api.powerbi.com/v1.0/myorg/groups/{workspace_id}/datasets"
-        res = requests.get(url, headers=self._headers)
+        res = requests.get(url, headers=self._headers, timeout=30)
         res.raise_for_status()
         return res.json()["value"]
 
@@ -21,7 +21,7 @@ class PowerBIClient:
         """Run one DAX query and return its rows (the API allows one per call)."""
         url = f"https://api.powerbi.com/v1.0/myorg/datasets/{dataset_id}/executeQueries"
         payload = {"queries": [{"query": query}]}
-        res = requests.post(url, headers=self._headers, json=payload)
+        res = requests.post(url, headers=self._headers, json=payload, timeout=30)
         if not res.ok:
             raise RuntimeError(f"DAX query failed ({res.status_code}): {res.text}")
         return res.json()["results"][0]["tables"][0]["rows"]

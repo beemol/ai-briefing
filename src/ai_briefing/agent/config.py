@@ -5,6 +5,7 @@ carry the API string, so call sites use `AgentModel.CLAUDE_OPUS_4_1`
 instead of hardcoding "claude-opus-4-1".
 """
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from enum import StrEnum
 
@@ -49,21 +50,31 @@ class AgentConfig:
                      limit, so raise it for long reports.
     max_steps      - how many tool-calling rounds before the agent gives up.
                      1 step = one API round trip (model -> tool -> model).
-                     Typical question needs 1-3; 6 is a safety valve.
+                     Typical question: 1-5; complex analyses: 8-15.
+                     On exhaustion the agent asks the model for a partial summary.
     temperature    - randomness of the answer. 0.0 = deterministic/repeatable,
                      1.0 = most creative. For numbers and facts use ~0.0.
                      None = leave the API default (1.0).
     system_prompt  - standing instructions the model sees before every reply:
                      role, language, rules like "always use TOPN".
+    usage_callback - optional hook called after every LLM call with
+                     (input_tokens, output_tokens, cached_input_tokens);
+                     used for cost logging.
+    step_callback  - optional hook called with short progress messages
+                     during ask(); gives the UI live feedback.
     """
 
     #: Which LLM answers (see AgentModel).
-    model: AgentModel = AgentModel.CLAUDE_SONNET_4_5
+    model: AgentModel = AgentModel.CLAUDE_HAIKU_4_5
     #: Max tokens the model may generate per reply (1024 = ~2 pages of text).
     max_tokens: int = 1024
     #: Max tool-calling rounds before the agent gives up.
-    max_steps: int = 6
+    max_steps: int = 10
     #: Randomness 0.0-1.0; None = API default (1.0). Use low for facts.
     temperature: float | None = None
     #: Standing instructions prepended to every request.
     system_prompt: str = DEFAULT_SYSTEM_PROMPT
+    #: Called after every LLM call with (input, output, cached) token counts.
+    usage_callback: Callable[[int, int, int], None] | None = None
+    #: Called with short progress messages during ask() (UI feedback); None = silent.
+    step_callback: Callable[[str], None] | None = None

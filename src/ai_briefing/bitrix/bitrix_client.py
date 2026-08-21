@@ -59,7 +59,7 @@ class BitrixClient:
         for key, value in (params or {}).items():
             flat.extend(_flatten_params(key, value))
 
-        res = requests.get(f"{self._base_url}/{method}.json", params=flat)
+        res = requests.get(f"{self._base_url}/{method}.json", params=flat, timeout=30)
         res.raise_for_status()
         data = cast(dict[str, object], res.json())
 

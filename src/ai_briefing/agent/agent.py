@@ -1,9 +1,10 @@
 from collections.abc import Sequence
-from typing import cast, final
+from typing import Any, cast, final
 
 from anthropic import Anthropic
-from anthropic.types import MessageParam, ToolParam
+from anthropic.types import Message, MessageParam, ToolParam
 
+from .config import AgentConfig
 from .toolkit import Toolkit
 
 
@@ -15,10 +16,10 @@ class Agent:
         self,
         claude: Anthropic,
         toolkits: Sequence[Toolkit],
-        model: str = "claude-3-7-sonnet-20250219",
+        config: AgentConfig | None = None,
     ):
         self._claude = claude
-        self._model = model
+        self._config = config or AgentConfig()
         self._toolkits = toolkits
 
         self._tools: list[dict[str, object]] = []
@@ -30,27 +31,27 @@ class Agent:
                 self._tools.append(tool)
                 self._tool_map[tool["name"]] = tk
 
-        self._system_prompt = (
-            "You are an assistant for a truck-leasing company. "
-            "Use tools to answer questions about leasing leads (Bitrix24) or report data (Power BI). "
-            "Prefer counts and aggregations over raw rows; never request full tables. "
-            "Call get_powerbi_schema to discover tables, get_table_schema for one table's columns, "
-            "then run_dax_query with TOPN or SUMMARIZECOLUMNS. "
-            "Answer concisely in Russian."
-        )
+        self._system_prompt = self._config.system_prompt
+
+    def _call_llm(self, messages: list[dict[str, object]]) -> Message:
+        """Send the conversation with the configured model and knobs."""
+        kwargs: dict[str, Any] = {
+            "model": self._config.model.value,
+            "max_tokens": self._config.max_tokens,
+            "system": self._system_prompt,
+            "tools": cast(list[ToolParam], self._tools),
+            "messages": cast(list[MessageParam], messages),
+        }
+        if self._config.temperature is not None:
+            kwargs["temperature"] = self._config.temperature
+        return self._claude.messages.create(**kwargs)
 
     def ask(self, question: str) -> str:
         """Run a conversational loop until the LLM produces a final text answer."""
         messages: list[dict[str, object]] = [{"role": "user", "content": question}]
 
-        for _ in range(6):
-            resp = self._claude.messages.create(
-                model=self._model,
-                max_tokens=1024,
-                system=self._system_prompt,
-                tools=cast(list[ToolParam], self._tools),
-                messages=cast(list[MessageParam], messages),
-            )
+        for _ in range(self._config.max_steps):
+            resp = self._call_llm(messages)
 
             messages.append({"role": "assistant", "content": resp.content})
 
@@ -83,4 +84,4 @@ class Agent:
 
             messages.append({"role": "user", "content": tool_results})
 
-        return "Не удалось получить ответ, Пашка (превышен лимит шагов)."
+        return "Не удалось получить ответ (превышен лимит шагов)."

@@ -78,9 +78,15 @@ class Agent:
 
             if not tool_results:
                 # No tools called -> the LLM provided a final text answer
-                return "".join(
+                text = "".join(
                     block.text for block in resp.content if block.type == "text"
                 )
+                if resp.stop_reason == "max_tokens":
+                    text += (
+                        "\n\n⚠️ Ответ обрезан лимитом max_tokens — "
+                        "увеличьте --max-tokens (ответ неполный)."
+                    )
+                return text
 
             messages.append({"role": "user", "content": tool_results})
 

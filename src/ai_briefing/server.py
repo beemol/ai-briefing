@@ -55,6 +55,7 @@ def get_agent() -> Agent:
     return _agent
 
 
+@app.get("/")
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}

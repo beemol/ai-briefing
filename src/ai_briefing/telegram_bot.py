@@ -35,6 +35,9 @@ logger = logging.getLogger("ai_briefing.telegram_bot")
 # Telegram hard-caps a message at 4096 characters; keep chunks safely under it.
 _MAX_MESSAGE_CHARS = 4000
 
+# Cap on a single ask() so a hung model/network call can't stall the bot forever.
+_ASK_TIMEOUT_SECONDS = 180
+
 _agent: Agent | None = None
 
 
@@ -51,14 +54,14 @@ async def _reply_text(update: Update, text: str) -> None:
     if chat is None:
         return
     for i in range(0, len(text), _MAX_MESSAGE_CHARS):
-        await chat.send_message(text[i : i + _MAX_MESSAGE_CHARS])
+        _ = await chat.send_message(text[i : i + _MAX_MESSAGE_CHARS])
 
 
 async def start(update: Update, _context: ContextTypes.DEFAULT_TYPE) -> None:
     chat = update.effective_chat
     if chat is None:
         return
-    await chat.send_message(
+    _ = await chat.send_message(
         "Привет! Я ассистент по лизингу. Спросите о лидах (Bitrix24) "
         + "или данных отчёта (Power BI). Например: «сколько лидов в стадии FAIL?»"
     )
@@ -72,14 +75,22 @@ async def handle_message(update: Update, _context: ContextTypes.DEFAULT_TYPE) ->
     if not question:
         return
 
+    logger.info("вопрос от пользователя: %s", question)
+
     chat = update.effective_chat
     if chat is not None:
-        await chat.send_chat_action(ChatAction.TYPING)
+        _ = await chat.send_chat_action(ChatAction.TYPING)
 
     try:
         # ask() is blocking (network + LLM calls) — run it off the event loop
-        # so other Telegram updates aren't frozen while one answer is generated.
-        answer = await asyncio.to_thread(get_agent().ask, question)
+        # and cap it so one slow request can't stall the bot forever.
+        answer = await asyncio.wait_for(
+            asyncio.to_thread(get_agent().ask, question),
+            timeout=_ASK_TIMEOUT_SECONDS,
+        )
+    except TimeoutError:
+        logger.warning("ask timed out after %ss", _ASK_TIMEOUT_SECONDS)
+        answer = "⏱ Ответ занял слишком много времени. Попробуйте уточнить вопрос."
     except Exception as exc:
         logger.exception("agent failed")
         answer = f"Ошибка: {exc}"
@@ -88,9 +99,13 @@ async def handle_message(update: Update, _context: ContextTypes.DEFAULT_TYPE) ->
 
 
 def main() -> None:
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+    )
     token = os.getenv("TELEGRAM_BOT_TOKEN")
     if not token:
+        print("[bot] Ошибка: нет TELEGRAM_BOT_TOKEN (добавьте в .env)", flush=True)
         raise SystemExit("Missing required env var: TELEGRAM_BOT_TOKEN")
 
     application = Application.builder().token(token).build()
@@ -98,7 +113,14 @@ def main() -> None:
     application.add_handler(
         MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message)
     )
-    application.run_polling()
+
+    print("[bot] запускаюсь… (long-polling, жду сообщения)", flush=True)
+    try:
+        application.run_polling()
+    except Exception as exc:
+        # InvalidToken / NetworkError — make the reason visible in the console.
+        print(f"[bot] ошибка подключения к Telegram: {exc}", flush=True)
+        raise
 
 
 if __name__ == "__main__":

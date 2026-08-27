@@ -1,8 +1,8 @@
 from typing import Any, cast, override
 
-from ai_briefing.agent.toolkit import Toolkit, serialize_tool_result
+from ai_briefing.core.toolkit import Toolkit, serialize_tool_result
 
-from .bitrix_client import BitrixClient
+from .client import BitrixClient
 
 # The "Лизинг" smart process (dynamic CRM entity).
 ENTITY_TYPE_ID = 168

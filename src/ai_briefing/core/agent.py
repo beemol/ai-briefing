@@ -1,9 +1,9 @@
 from collections.abc import Sequence
 from typing import Any, cast, final
 
-from anthropic import Anthropic
 from anthropic.types import Message, MessageParam
 
+from .backends import LLMClient
 from .config import AgentConfig
 from .toolkit import Toolkit
 
@@ -14,7 +14,7 @@ class Agent:
 
     def __init__(
         self,
-        claude: Anthropic,
+        claude: LLMClient,
         toolkits: Sequence[Toolkit],
         config: AgentConfig | None = None,
     ):
@@ -48,8 +48,7 @@ class Agent:
             tools[-1]["cache_control"] = {"type": "ephemeral"}
 
         kwargs: dict[str, Any] = {
-            "model": self._config.model.value,
-            "max_tokens": self._config.max_tokens,
+            "model": self._config.model_name or self._config.model.value,
             "system": [
                 {
                     "type": "text",
@@ -60,6 +59,8 @@ class Agent:
             "tools": tools,
             "messages": cast(list[MessageParam], messages),
         }
+        if self._config.max_tokens is not None:
+            kwargs["max_tokens"] = self._config.max_tokens
         if self._config.temperature is not None:
             kwargs["temperature"] = self._config.temperature
         resp = self._claude.messages.create(**kwargs)
@@ -85,10 +86,29 @@ class Agent:
     def ask(self, question: str) -> str:
         """Run a conversational loop until the LLM produces a final text answer."""
         messages: list[dict[str, object]] = [{"role": "user", "content": question}]
-        total = self._config.max_steps
 
-        for step in range(1, total + 1):
-            self._step(f"Шаг {step}/{total}: вызов модели…")
+        # Preload schema/context tools so weak models don't need to discover
+        # the data layout themselves (they tend to ask for clarification).
+        for name in self._config.preload_tools:
+            tk = self._tool_map.get(name)
+            if tk is None:
+                continue
+            try:
+                content = tk.execute(name, {})
+            except Exception as exc:  # noqa: BLE001 - preload must never crash ask
+                content = f"Ошибка предзагрузки {name}: {exc}"
+            self._step(f"предзагрузка: {name}")
+            messages.append(
+                {"role": "user", "content": f"[данные из {name}]\n{content}"}
+            )
+
+        limit = self._config.max_steps
+
+        step = 0
+        while limit is None or step < limit:
+            step += 1
+            label = str(limit) if limit is not None else "∞"
+            self._step(f"Шаг {step}/{label}: вызов модели…")
             resp = self._call_llm(messages)
 
             messages.append({"role": "assistant", "content": resp.content})

@@ -5,7 +5,7 @@ from xml.sax.saxutils import escape
 
 import requests
 
-from ai_briefing.powerbi.powerbi_auth import get_access_token
+from ai_briefing.domain.powerbi.auth import get_access_token
 
 XMLA_NS = "urn:schemas-microsoft-com:xml-analysis"
 ROWSET_NS = "urn:schemas-microsoft-com:xml-analysis:rowset"

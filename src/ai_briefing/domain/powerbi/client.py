@@ -2,7 +2,16 @@ import os
 
 import requests
 
-from .powerbi_auth import get_access_token
+from .auth import get_access_token
+
+
+def _clean_row(row: dict[str, object]) -> dict[str, object]:
+    """Normalize the API's messy column keys ("Table[Col" / "[Col]") to plain names."""
+    clean: dict[str, object] = {}
+    for key, value in row.items():
+        name = key.rsplit("[", 1)[-1].rstrip("]").strip()
+        clean[name] = value
+    return clean
 
 
 class PowerBIClient:
@@ -24,7 +33,8 @@ class PowerBIClient:
         res = requests.post(url, headers=self._headers, json=payload, timeout=30)
         if not res.ok:
             raise RuntimeError(f"DAX query failed ({res.status_code}): {res.text}")
-        return res.json()["results"][0]["tables"][0]["rows"]
+        rows = res.json()["results"][0]["tables"][0]["rows"]
+        return [_clean_row(row) for row in rows]
 
     def list_tables(self, dataset_id: str) -> list[dict[str, object]]:
         return self.run_dax(dataset_id, "EVALUATE INFO.TABLES()")

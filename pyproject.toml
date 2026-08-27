@@ -19,7 +19,7 @@ dependencies = [
 
 [project.scripts]
 chat = "ai_briefing.cli:main"
-powerbi-inspect = "ai_briefing.powerbi.powerbi_tools:main"
+powerbi-inspect = "ai_briefing.domain.powerbi.tools:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

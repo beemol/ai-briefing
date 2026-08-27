@@ -2,12 +2,13 @@ import argparse
 import json
 import os
 import sys
-from typing import Any, final, override
+from typing import Any, cast, final, override
 
-from ai_briefing.agent.toolkit import Toolkit, serialize_tool_result
+from ai_briefing.core.toolkit import Toolkit, serialize_tool_result
 
-from .powerbi_auth import get_access_token
-from .powerbi_client import PowerBIClient
+from .auth import get_access_token
+from .client import PowerBIClient
+from .data_guide import DATA_GUIDE
 
 DEFAULT_DATASET_ID = "7ff60759-744c-4d52-a142-45b118676e43"
 MAX_RESULT_ROWS = 100
@@ -40,7 +41,7 @@ class PowerBITools(Toolkit):
         self._load_schema()
 
     def _load_schema(self) -> None:
-        schema_path = os.path.join(os.path.dirname(__file__), "powerbi_schema.json")
+        schema_path = os.path.join(os.path.dirname(__file__), "schema.json")
         if os.path.exists(schema_path):
             with open(schema_path, "r", encoding="utf-8") as f:
                 self._schema = json.load(f)
@@ -48,6 +49,26 @@ class PowerBITools(Toolkit):
     @override
     def get_tools(self) -> list[dict[str, Any]]:
         return [
+            {
+                "name": "get_data_guide",
+                "description": "Semantic guide to Power BI tables: what each table means and which columns to use for manager conversions and ratings. Includes the full schema.",
+                "input_schema": {
+                    "type": "object",
+                    "properties": {},
+                },
+            },
+            {
+                "name": "manager_rating",
+                "description": "Rank managers by number of leads in a period. Uses a verified query (items joined to the user dictionary). Args: start and end as YYYY-MM-DD, end is exclusive.",
+                "input_schema": {
+                    "type": "object",
+                    "properties": {
+                        "start": {"type": "string", "description": "Period start, YYYY-MM-DD, e.g. 2026-07-01"},
+                        "end": {"type": "string", "description": "Period end (exclusive), YYYY-MM-DD, e.g. 2026-09-01"},
+                    },
+                    "required": ["start", "end"],
+                },
+            },
             {
                 "name": "get_powerbi_schema",
                 "description": "List the tables available in the Power BI dataset (names + column counts). Call this first to discover tables.",
@@ -84,7 +105,13 @@ class PowerBITools(Toolkit):
     @override
     def execute(self, name: str, args: dict[str, Any]) -> str:
         """Route the tool name to the local python method and cap the output size."""
-        if name == "get_powerbi_schema":
+        if name == "get_data_guide":
+            res = self.get_data_guide()
+        elif name == "manager_rating":
+            res = self.manager_rating(
+                str(args.get("start") or ""), str(args.get("end") or "")
+            )
+        elif name == "get_powerbi_schema":
             res = self.list_tables()
         elif name == "get_table_schema":
             res = self.get_schema_str(str(args.get("table") or ""))
@@ -92,7 +119,7 @@ class PowerBITools(Toolkit):
             res = self.run_dax(str(args.get("dax_query") or ""))
         else:
             raise ValueError(f"Unknown PowerBI tool: {name}")
-            
+
         return serialize_tool_result(res)
 
     def list_tables(self) -> list[dict[str, object]]:
@@ -117,6 +144,55 @@ class PowerBITools(Toolkit):
         for name, cols in self._schema.items():
             lines.append(f"{name}: " + ", ".join(c["name"] for c in cols))
         return "\n".join(lines)
+
+    def get_data_guide(self) -> str:
+        """Semantic guide + full schema, for injecting into the model context."""
+        return DATA_GUIDE + "\n\nПолная схема (таблица: столбцы):\n" + self.get_schema_str()
+
+    def manager_rating(
+        self, start: str, end: str, limit: int = 20
+    ) -> list[dict[str, object]]:
+        """Rank managers by number of leads in [start, end). Dates: YYYY-MM-DD."""
+        def _date(value: str) -> str:
+            parts = value.strip().split("-")
+            if len(parts) != 3:
+                raise ValueError(f"Date must be YYYY-MM-DD, got: {value!r}")
+            year, month, day = (int(p) for p in parts)
+            return f"DATE({year}, {month}, {day})"
+
+        items = "'sitemanager b_crm_dynamic_items_168'"
+        query = (
+            "EVALUATE SUMMARIZECOLUMNS("
+            f"{items}[КМ_user id], "
+            f"FILTER({items}, AND({items}[DATE_CREATE] >= {_date(start)}, "
+            f"{items}[DATE_CREATE] < {_date(end)})), "
+            f"\"Лидов\", COUNTROWS({items}))"
+        )
+        rows = [
+            r for r in self.client.run_dax(self.dataset_id, query) if r.get("КМ_user id")
+        ]
+        rows.sort(key=lambda r: -cast(int, r.get("Лидов") or 0))
+        rows = rows[:limit]
+        if not rows:
+            return []
+
+        ids = ", ".join(str(cast(int, r["КМ_user id"])) for r in rows)
+        names_query = (
+            "EVALUATE FILTER('sitemanager b_user_index', "
+            f"'sitemanager b_user_index'[USER_ID] IN {{{ids}}})"
+        )
+        names = {
+            cast(int, r["USER_ID"]): str(r["ФИО сотрудника"]).strip()
+            for r in self.client.run_dax(self.dataset_id, names_query)
+        }
+        return [
+            {
+                "name": names.get(cast(int, r["КМ_user id"]), f"id {r['КМ_user id']}"),
+                "user_id": cast(int, r["КМ_user id"]),
+                "leads": cast(int, r["Лидов"] or 0),
+            }
+            for r in rows
+        ]
 
     def run_dax(self, dax_query: str) -> list[dict[str, Any]]:
         """Execute a raw DAX query against the configured dataset (capped)."""

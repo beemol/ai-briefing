@@ -1,8 +1,8 @@
 import os
 
-from ai_briefing.llm_service import LLMService
-from ai_briefing.providers.deepseek_client import DeepSeekService
-from ai_briefing.providers.gemini_service import GeminiService
+from ai_briefing.legacy.llm_service import LLMService
+from ai_briefing.legacy.providers.deepseek_client import DeepSeekService
+from ai_briefing.legacy.providers.gemini_service import GeminiService
 
 
 def get_llm_service() -> LLMService:

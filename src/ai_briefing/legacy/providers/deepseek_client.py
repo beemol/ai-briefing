@@ -2,7 +2,7 @@ from typing import final, override
 
 from openai import OpenAI
 
-from ai_briefing.llm_service import LLMService
+from ai_briefing.legacy.llm_service import LLMService
 
 
 @final

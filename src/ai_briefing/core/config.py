@@ -23,6 +23,19 @@ class AgentModel(StrEnum):
     CLAUDE_HAIKU_4_5 = "claude-haiku-4-5"
 
 
+class CacheType(StrEnum):
+    """Claude prompt-caching mode passed to `cache_control`.
+
+    `ephemeral`  — 5-minute TTL, works on every Claude model (safe default).
+    `persistent` — longer-lived cache with a lower per-token price on repeat
+                   reads; needs Sonnet 4.5 / Opus 4.1 and a cacheable prompt.
+                   Only affects the Anthropic backend (OpenAI ignores it).
+    """
+
+    EPHEMERAL = "ephemeral"
+    PERSISTENT = "persistent"
+
+
 GENERIC_SYSTEM_PROMPT = (
     "You are a helpful assistant. Use the provided tools to answer the user's question. "
     "Prefer counts and aggregations over raw rows; never request full tables. "
@@ -41,6 +54,8 @@ class AgentConfig:
                      Opus = best quality, slowest, priciest.
                      Sonnet = balanced default.
                      Haiku = cheapest & fastest, fine for simple counts.
+    cache_type     - Claude prompt-caching mode: `ephemeral` (5-min TTL,
+                     default) or `persistent` (longer-lived, cheaper on repeat).
     max_tokens     - cap on the *generated answer* (output only).
                      1 token ~ 3-4 chars ~ 0.5-0.75 words, so 1024 ~ 2 pages.
                      None/0 = no cap (backend default). NOTE: the Anthropic
@@ -73,6 +88,10 @@ class AgentConfig:
     #: Exact model id sent to the API; overrides `model` (needed for
     #: OpenAI-compatible backends, e.g. local Ollama "qwen2.5:14b").
     model_name: str | None = None
+    #: Claude prompt-caching mode passed to `cache_control` (see CacheType).
+    #: `ephemeral` = 5-min TTL (default); `persistent` = longer-lived & cheaper
+    #: on repeat, for Sonnet 4.5 / Opus 4.1. Ignored by the OpenAI backend.
+    cache_type: CacheType = CacheType.EPHEMERAL
     #: Max tokens per generated reply; None = no cap (backend default).
     #: NOTE: the Anthropic API always requires a value — pass a big number
     #: (e.g. 16384) to make Claude effectively unlimited.

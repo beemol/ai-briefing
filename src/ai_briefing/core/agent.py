@@ -33,19 +33,55 @@ class Agent:
 
         self._system_prompt = self._config.system_prompt
 
+    def _with_cached_tail(
+        self,
+        messages: list[dict[str, object]],
+    ) -> list[dict[str, object]]:
+        """Return a copy of `messages` with a cache breakpoint on the last block.
+
+        The last message when the LLM is called is either the user question
+        (a string, on step 1) or the accumulated tool results (a list of
+        blocks, on later steps). Tool results are the large, stable prefix
+        that gets re-sent on every step, so marking the tail lets Anthropic
+        reuse them across steps instead of re-processing them.
+
+        String content is left untouched: it is small, and converting it to a
+        list would change the message shape that the OpenAI adapter relies on.
+        """
+        if not messages:
+            return messages
+        last = messages[-1]
+        content = last.get("content")
+        if not isinstance(content, list) or not content:
+            return messages
+
+        last_copy = dict(last)
+        blocks = list(content)
+        tail = blocks[-1]
+        if not isinstance(tail, dict):
+            return messages
+        blocks[-1] = {
+            **tail,
+            "cache_control": {"type": self._config.cache_type.value},
+        }
+        last_copy["content"] = blocks
+        return messages[:-1] + [last_copy]
+
     def _call_llm(self, messages: list[dict[str, object]]) -> Message:
         """Send the conversation with the configured model and knobs.
 
-        The system prompt and tool definitions are marked with Anthropic
-        prompt caching (cache_control): they are identical on every step, so
-        the API re-reads them from cache (~90% cheaper for those tokens)
-        instead of processing them anew on each round trip.
+        Three stable prefixes are marked with Anthropic prompt caching
+        (cache_control) so the API re-reads them from cache (~90% cheaper)
+        instead of re-processing them on every round trip:
+          1. the system prompt,
+          2. the tool definitions,
+          3. the accumulated conversation history (tool results).
         """
         # Shallow copies so adding cache_control never mutates self._tools.
         tools: list[dict[str, Any]] = [dict(t) for t in self._tools]
         if tools:
             # Only the LAST tool in the list can carry cache_control.
-            tools[-1]["cache_control"] = {"type": "ephemeral"}
+            tools[-1]["cache_control"] = {"type": self._config.cache_type.value}
 
         kwargs: dict[str, Any] = {
             "model": self._config.model_name or self._config.model.value,
@@ -53,11 +89,13 @@ class Agent:
                 {
                     "type": "text",
                     "text": self._system_prompt,
-                    "cache_control": {"type": "ephemeral"},
+                    "cache_control": {"type": self._config.cache_type.value},
                 }
             ],
             "tools": tools,
-            "messages": cast(list[MessageParam], messages),
+            "messages": cast(
+                list[MessageParam], self._with_cached_tail(messages)
+            ),
         }
         if self._config.max_tokens is not None:
             kwargs["max_tokens"] = self._config.max_tokens

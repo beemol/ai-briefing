@@ -13,6 +13,7 @@ dependencies = [
     "msal",
     "openai",
     "python-dotenv",
+    "python-telegram-bot",
     "requests",
     "uvicorn",
 ]
@@ -20,12 +21,13 @@ dependencies = [
 [project.scripts]
 chat = "ai_briefing.cli:main"
 powerbi-inspect = "ai_briefing.domain.powerbi.tools:main"
+telegram-bot = "ai_briefing.telegram_bot:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
-ai_briefing = ["powerbi/*.json", "powerbi/*.csv"]
+ai_briefing = ["domain/powerbi/*.json", "domain/powerbi/*.csv"]
 
 [tool.ruff]
 src = ["src"]

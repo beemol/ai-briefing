@@ -1,4 +1,5 @@
 import os
+from collections.abc import Callable
 
 import requests
 
@@ -15,14 +16,23 @@ def _clean_row(row: dict[str, object]) -> dict[str, object]:
 
 
 class PowerBIClient:
-    """Power BI REST operations. Authentication is injected as an access token."""
+    """Power BI REST operations.
 
-    def __init__(self, access_token: str):
-        self._headers: dict[str, str] = {"Authorization": f"Bearer {access_token}"}
+    Authentication is injected as a zero-arg callable that returns an access
+    token. Pass `get_access_token` (the function, not its result) so every
+    request re-checks MSAL's cache and auto-refreshes the token near expiry —
+    important for a long-running server.
+    """
+
+    def __init__(self, token_provider: Callable[[], str]):
+        self._token_provider: Callable[[], str] = token_provider
+
+    def _headers(self) -> dict[str, str]:
+        return {"Authorization": f"Bearer {self._token_provider()}"}
 
     def list_datasets(self, workspace_id: str) -> list[dict[str, object]]:
         url = f"https://api.powerbi.com/v1.0/myorg/groups/{workspace_id}/datasets"
-        res = requests.get(url, headers=self._headers, timeout=30)
+        res = requests.get(url, headers=self._headers(), timeout=30)
         res.raise_for_status()
         return res.json()["value"]
 
@@ -30,7 +40,7 @@ class PowerBIClient:
         """Run one DAX query and return its rows (the API allows one per call)."""
         url = f"https://api.powerbi.com/v1.0/myorg/datasets/{dataset_id}/executeQueries"
         payload = {"queries": [{"query": query}]}
-        res = requests.post(url, headers=self._headers, json=payload, timeout=30)
+        res = requests.post(url, headers=self._headers(), json=payload, timeout=30)
         if not res.ok:
             raise RuntimeError(f"DAX query failed ({res.status_code}): {res.text}")
         rows = res.json()["results"][0]["tables"][0]["rows"]
@@ -48,7 +58,7 @@ if __name__ == "__main__":
     if not dataset_id:
         raise SystemExit("Missing required env var: DATASET_ID")
 
-    client = PowerBIClient(get_access_token())
+    client = PowerBIClient(get_access_token)
 
     tables = client.list_tables(dataset_id)
     columns = client.list_columns(dataset_id)

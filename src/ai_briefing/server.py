@@ -16,10 +16,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from ai_briefing.core import Agent, AgentConfig, build_llm_client
-from ai_briefing.domain import LEASING_SYSTEM_PROMPT
-from ai_briefing.domain.bitrix import BitrixClient, BitrixTools
-from ai_briefing.domain.powerbi import PowerBIClient, PowerBITools, get_access_token
+from ai_briefing.core import Agent
+from ai_briefing.domain.factory import build_agent
 
 logger = logging.getLogger("ai_briefing.server")
 
@@ -47,53 +45,6 @@ class AskRequest(BaseModel):
 
 class AskResponse(BaseModel):
     answer: str
-
-
-def build_agent() -> Agent:
-    """Build the agent from environment variables (clear error if misconfigured)."""
-    backend = os.getenv("LLM_BACKEND", "anthropic").lower()
-
-    missing: list[str] = []
-    if not os.getenv("BITRIX_WEBHOOK"):
-        missing.append("BITRIX_WEBHOOK")
-    if backend == "anthropic" and not os.getenv("ANTHROPIC_API_KEY"):
-        missing.append("ANTHROPIC_API_KEY")
-    for name in ("TENANT_ID", "CLIENT_ID", "CLIENT_SECRET"):
-        if not os.getenv(name):
-            missing.append(name)
-    if missing:
-        raise RuntimeError(
-            "Server not configured: missing env vars " + ", ".join(missing)
-        )
-
-    llm = build_llm_client(
-        backend=backend,
-        api_key=os.getenv("ANTHROPIC_API_KEY")
-        or os.getenv("LLM_API_KEY")
-        or "local",
-        base_url=os.getenv("LLM_BASE_URL", ""),
-        model=os.getenv("LLM_MODEL", ""),
-    )
-    agent = Agent(
-        llm,
-        [
-            BitrixTools(BitrixClient(os.getenv("BITRIX_WEBHOOK", ""))),
-            PowerBITools(PowerBIClient(get_access_token())),
-        ],
-        config=AgentConfig(
-            system_prompt=LEASING_SYSTEM_PROMPT,
-            model_name=os.getenv("LLM_MODEL") if backend != "anthropic" else None,
-            # Local models don't explore the schema themselves — give it to them.
-            preload_tools=("get_data_guide",) if backend != "anthropic" else (),
-            usage_callback=lambda input_tokens, output_tokens, cached: logger.info(
-                "LLM usage: input=%d output=%d cached=%d",
-                input_tokens,
-                output_tokens,
-                cached,
-            ),
-        ),
-    )
-    return agent
 
 
 def get_agent() -> Agent:

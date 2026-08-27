@@ -69,7 +69,7 @@ class AgentConfig:
     """
 
     #: Which LLM answers (see AgentModel).
-    model: AgentModel = AgentModel.CLAUDE_SONNET_4_5
+    model: AgentModel = AgentModel.CLAUDE_HAIKU_4_5
     #: Exact model id sent to the API; overrides `model` (needed for
     #: OpenAI-compatible backends, e.g. local Ollama "qwen2.5:14b").
     model_name: str | None = None

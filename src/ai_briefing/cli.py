@@ -162,7 +162,7 @@ def _run() -> None:
     )
     toolkits = [
         BitrixTools(BitrixClient(webhook)),
-        PowerBITools(PowerBIClient(get_access_token())),
+        PowerBITools(PowerBIClient(get_access_token)),
     ]
     agent = Agent(
         llm,

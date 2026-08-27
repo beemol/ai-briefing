@@ -232,7 +232,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main() -> None:
     args = build_parser().parse_args()
-    tools = PowerBITools(PowerBIClient(get_access_token()))
+    tools = PowerBITools(PowerBIClient(get_access_token))
 
     if args.command == "tables":
         for row in tools.list_tables():

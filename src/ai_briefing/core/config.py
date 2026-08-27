@@ -76,10 +76,10 @@ class AgentConfig:
     #: Max tokens per generated reply; None = no cap (backend default).
     #: NOTE: the Anthropic API always requires a value — pass a big number
     #: (e.g. 16384) to make Claude effectively unlimited.
-    max_tokens: int | None = 1024
+    max_tokens: int | None = 2048
     #: Max tool-calling rounds; None = unlimited (risky with weak models —
     #: they can loop forever emitting tool calls).
-    max_steps: int | None = 10
+    max_steps: int | None = 20
     #: Randomness 0.0-1.0; None = API default (1.0). Use low for facts.
     temperature: float | None = None
     #: Standing instructions prepended to every request.

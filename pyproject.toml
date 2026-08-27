@@ -27,7 +27,11 @@ telegram-bot = "ai_briefing.telegram_bot:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-ai_briefing = ["domain/powerbi/*.json", "domain/powerbi/*.csv"]
+ai_briefing = [
+    "domain/glossary.md",
+    "domain/powerbi/*.json",
+    "domain/powerbi/*.csv",
+]
 
 [tool.ruff]
 src = ["src"]

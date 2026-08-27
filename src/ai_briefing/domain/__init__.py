@@ -7,6 +7,6 @@ Everything here is specific to the truck-leasing use case:
 - glossary.md — business abbreviations (to be filled by the CEO)
 """
 
-from ai_briefing.domain.config import LEASING_SYSTEM_PROMPT
+from ai_briefing.domain.config import LEASING_SYSTEM_PROMPT, build_system_prompt
 
-__all__ = ["LEASING_SYSTEM_PROMPT"]
+__all__ = ["LEASING_SYSTEM_PROMPT", "build_system_prompt"]

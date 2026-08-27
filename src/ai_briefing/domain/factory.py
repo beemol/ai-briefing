@@ -11,7 +11,7 @@ from collections.abc import Callable
 
 from ai_briefing.core import Agent, AgentConfig, build_llm_client
 from ai_briefing.domain.bitrix import BitrixClient, BitrixTools
-from ai_briefing.domain.config import LEASING_SYSTEM_PROMPT
+from ai_briefing.domain.config import build_system_prompt
 from ai_briefing.domain.powerbi import PowerBIClient, PowerBITools, get_access_token
 
 logger = logging.getLogger("ai_briefing.factory")
@@ -56,7 +56,7 @@ def build_agent(
             PowerBITools(PowerBIClient(get_access_token)),
         ],
         config=AgentConfig(
-            system_prompt=LEASING_SYSTEM_PROMPT,
+            system_prompt=build_system_prompt(),
             model_name=os.getenv("LLM_MODEL") if backend != "anthropic" else None,
             # Local models don't explore the schema themselves — give it to them.
             preload_tools=("get_data_guide",) if backend != "anthropic" else (),

@@ -47,7 +47,7 @@ import os
 from dotenv import load_dotenv
 
 from ai_briefing.core import Agent, AgentConfig, AgentModel, build_llm_client
-from ai_briefing.domain import LEASING_SYSTEM_PROMPT
+from ai_briefing.domain import build_system_prompt
 from ai_briefing.domain.bitrix import BitrixClient, BitrixTools
 from ai_briefing.domain.powerbi import PowerBIClient, PowerBITools, get_access_token
 
@@ -168,7 +168,7 @@ def _run() -> None:
         llm,
         toolkits,
         config=AgentConfig(
-            system_prompt=LEASING_SYSTEM_PROMPT,
+            system_prompt=build_system_prompt(),
             model=AgentModel.CLAUDE_SONNET_4_5,
             model_name=model_id if backend != "anthropic" else None,
             max_tokens=max_tokens,
